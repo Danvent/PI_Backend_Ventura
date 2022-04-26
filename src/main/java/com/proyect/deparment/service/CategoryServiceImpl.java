@@ -1,6 +1,7 @@
 package com.proyect.deparment.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.proyect.deparment.entity.Category;
 import com.proyect.deparment.repository.CategoryRepository;
@@ -20,12 +21,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Optional<Category> findbyId(int idCategory) {
+        return repository.findById(idCategory);
+    }
+
+    @Override
     public Category miCategory(Category obj) {
         return repository.save(obj);
     }
 
     @Override
-    public void deleteCategory(int IdCategory) {
-        repository.deleteById(IdCategory);
+    public void deleteCategory(int idCategory) {
+        repository.deleteById(idCategory);
     }
 }

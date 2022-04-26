@@ -93,12 +93,12 @@ public class Customer {
 
     //Todo: Creando el One to Many -> Un (CLiente) - muchas (Mascotas)
     @OneToMany(targetEntity = Pet.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdCustomer",referencedColumnName = "IdCustomer")
+    @JoinColumn(name = "IdCustomer",referencedColumnName = "idcustomer")
     private List<Pet> pets;
 
 
     //Todo: Creando el One to Many -> Un (Cliente) - muchos(Vehiculos)
     @OneToMany(targetEntity = Vehicle.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IdCustomer", referencedColumnName = "IdCustomer")
+    @JoinColumn(name = "IdCustomer", referencedColumnName = "idcustomer")
     private List<Vehicle> vehicles;
 }

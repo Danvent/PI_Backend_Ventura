@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.proyect.deparment.entity.Customer;
+import com.proyect.deparment.entity.Pet;
 import com.proyect.deparment.service.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,12 +32,21 @@ public class CustomerController {
     @Autowired
     private CustomerService service;
 
+
     
     @GetMapping
     @ResponseBody
     public ResponseEntity<List<Customer>> listarClientes(){
         List<Customer> lista = service.listCustomers();
         return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<Optional<Customer>> listarClienteUnico(@PathVariable("id") int idcustomer){
+        Optional<Customer> lista = service.findByIdCustomer(idcustomer);
+        return ResponseEntity.ok(lista);
+        
     }
 
     @PostMapping
@@ -47,11 +58,26 @@ public class CustomerController {
             if (CollectionUtils.isEmpty(lstCustomer)) {
                 obj.setIdcustomer(0);
                 service.miCustomer(obj);
-                salida.put("mensaje", "El cliente " + obj.getNombre() + ' ' + obj.getApellidoP() + obj.getApellidoM() + " se registro correctamente");
+                salida.put("mensaje", "El cliente " + obj.getNombre() + ' ' + obj.getApellidoP() + ' ' + obj.getApellidoM() + " se registro correctamente");
             } else {
                 salida.put("mensaje", "El cliente con " + obj.getDocumento() + " ya existe.");
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            salida.put("mensaje", obj);
+        }
+        return ResponseEntity.ok(salida);
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<HashMap<String,Object>> actualizarCliente(@RequestBody Customer obj){
+        HashMap<String, Object> salida = new HashMap<String, Object>();
+        try {
+                service.miCustomer(obj);
+                salida.put("mensaje", "El cliente " + obj.getNombre() + ' ' + obj.getApellidoP() + ' ' + obj.getApellidoM() + " se actualuzo correctamente");
+            
         } catch (Exception e) {
             e.printStackTrace();
             salida.put("mensaje", obj);

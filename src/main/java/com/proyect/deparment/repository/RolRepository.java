@@ -1,10 +1,9 @@
 package com.proyect.deparment.repository;
 
-
-import com.proyect.deparment.entity.Pet;
+import com.proyect.deparment.entity.Rol;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PetRepository extends JpaRepository<Pet,Integer> {
+public interface RolRepository extends JpaRepository<Rol,Integer>{
     
 }

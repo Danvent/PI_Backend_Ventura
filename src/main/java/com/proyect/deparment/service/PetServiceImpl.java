@@ -18,4 +18,9 @@ public class PetServiceImpl implements PetService {
     public List<Pet> listaMascota() {
         return repository.findAll();
     }
+
+    @Override
+    public void deletePets(int idcostumer) {
+        repository.deleteById(idcostumer);
+    }
 }

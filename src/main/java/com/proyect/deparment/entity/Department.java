@@ -34,6 +34,9 @@ public class Department {
     @Column(name = "des_department")
     private String descripcion;
 
+    @Column(name = "letter_department")
+    private String letra;
+
     @Column(name = "num_department")
     private String numero;
 
@@ -46,8 +49,13 @@ public class Department {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
+    @Column(name = "createdUser")
+    private String usuario;
+
     @ManyToOne
     @JoinColumn(name = "IdCategory")
     private Category category;
+
+    
 
 }

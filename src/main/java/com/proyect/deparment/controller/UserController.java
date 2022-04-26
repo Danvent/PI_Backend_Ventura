@@ -4,11 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-
-import com.proyect.deparment.entity.Category;
-import com.proyect.deparment.entity.Department;
-import com.proyect.deparment.service.CategoryService;
-import com.proyect.deparment.service.DepartmentService;
+import com.proyect.deparment.entity.User;
+import com.proyect.deparment.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,61 +20,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/rest/category")
-public class CategoryController {
+@RequestMapping("/rest/user")
+public class UserController {
+
+    @Autowired
+    private UserService service;
     
-    @Autowired
-    private CategoryService service;
-
-    @Autowired
-    private DepartmentService serviceDepartment;
-
     @GetMapping
     @ResponseBody
-    private ResponseEntity<List<Category>> listarCategorias(){
-        List<Category> lista = service.listCategories();
+    private ResponseEntity<List<User>> listarUsuarios(){
+        List<User> lista = service.listUsers();
         return ResponseEntity.ok(lista);
-    }
-
-    @GetMapping("/{id}")
-    @ResponseBody
-    private ResponseEntity<Optional<Category>> listarCategoriaId(@PathVariable("id") int idCategory){
-        Optional<Category> lista = service.findbyId(idCategory);
-        return ResponseEntity.ok(lista);
-
     }
 
     @PostMapping
     @ResponseBody
-    private ResponseEntity<HashMap<String,Object>> insertarCategoria(@RequestBody Category obj){
+    private ResponseEntity<HashMap<String,Object>> insertarUsuario(@RequestBody User obj){
         HashMap<String,Object> salida = new HashMap<String,Object>();
         try {
-            obj.setIdCategory(0);
-            Category objSalida = service.miCategory(obj);
+            obj.setIdUser(0);
+            User objSalida = service.miUser(obj);
             if (objSalida == null) {
                 salida.put("mensaje", "Error en el registro comuniquese con el administrador de sistema");
             } else {
-                salida.put("mensaje", "La categoría " + obj.getDescripcion() + "fue registrado correctamente");
+                salida.put("mensaje", "El usuario " + obj.getUsername() + " fue registrado correctamente");
             }
         } catch (Exception e) {
-            salida.put("mensaje", "Error al registrar la categoria");
+            salida.put("mensaje", "Error al registrar el usuario");
         }
         return ResponseEntity.ok(salida);
     }
 
     @PutMapping
     @ResponseBody
-    public ResponseEntity<HashMap<String, Object>> actualizarCategoria(@RequestBody Category obj){
+    public ResponseEntity<HashMap<String, Object>> actualizarUsuario(@RequestBody User obj){
         HashMap<String,Object> salida = new HashMap<String,Object>();
         try {
-            Category objSalida = service.miCategory(obj);
+            User objSalida = service.miUser(obj);
             if (objSalida == null) {
                 salida.put("mensaje", "Error al actualizar la categoria, comunicarse con el administrador");
             } else {
-                salida.put("mensaje", "Se actualizo la categoria :" + obj.getDescripcion() + "correctamente");
+                salida.put("mensaje", "Se actualizo la categoria :" + obj.getUsername() + "correctamente");
             }
         } catch (Exception e) {
             salida.put("Mensaje", "Error al actualizar la categoria");
@@ -88,21 +73,17 @@ public class CategoryController {
     
     @DeleteMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<HashMap<String,Object>> eliminarCategoria(@PathVariable("id") int idCategory){
+    public ResponseEntity<HashMap<String,Object>> eliminarUsuario(@PathVariable("id") int IdUser){
         HashMap<String,Object> salida = new HashMap<String,Object>();
-        // Optional<Department> optionalValidate = serviceDepartment.findAllbyIdCategory(idCategory);
-        Optional<Category> optional = service.findbyId(idCategory);
+        Optional<User> optional = service.findUser(IdUser);
         if (optional.isPresent()) {
-            // if(optionalValidate.isPresent()){
-            //     salida.put("mensaje", "La categoria esta siendo usada y no se puede borrar");
-            // } else {
-                service.deleteCategory(idCategory);
-                salida.put("mensaje", "La categoria : " + optional.get().getDescripcion() + " fue eliminada");
-            // }
+            service.deleteUser(IdUser);;
+            salida.put("mensaje", "El usuario : " + optional.get().getUsername() + " fue eliminada");
         } else {
             salida.put("mensaje", "Error al eliminar");
         }
         return ResponseEntity.ok(salida);
     }
+
 
 }

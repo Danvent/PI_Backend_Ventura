@@ -1,6 +1,7 @@
 package com.proyect.deparment.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.proyect.deparment.entity.Department;
 import com.proyect.deparment.repository.DepartmentRepository;
@@ -19,6 +20,10 @@ public class DepartmentServiceImpl  implements DepartmentService{
         // TODO Auto-generated method stub
         return repository.findAll();
     }
+    @Override
+    public Optional<Department> findbyId(int IdDepartment) {
+        return repository.findById(IdDepartment);
+    }
 
     @Override
     public Department miDeparment(Department obj) {
@@ -31,4 +36,9 @@ public class DepartmentServiceImpl  implements DepartmentService{
         // TODO Auto-generated method stub
         repository.deleteById(IdDepartment);
     }
+
+    // @Override
+    // public Optional<Department> findAllbyIdCategory(int IdCategory) {
+    //     return repository.findAllBycategory(IdCategory);
+    // }
 }
